@@ -1,0 +1,57 @@
+version: '3.8'
+
+# Configuration Unifiée avec Backend Debian (plus stable)
+
+services:
+  # Backend API (version Debian)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.debian
+    container_name: yesapp-backend
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./backend/.env:/app/.env:ro
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - yesapp-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Dashboard Unifié (expose port 3000)
+  unified:
+    build:
+      context: .
+      dockerfile: Dockerfile.unified
+      args:
+        - VITE_API_URL=/api/v1
+        - VITE_API_KEY=${VITE_API_KEY}
+    container_name: yesapp-unified
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - yesapp-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+networks:
+  yesapp-network:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local
