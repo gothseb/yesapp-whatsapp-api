@@ -15,9 +15,16 @@ RUN npm install --legacy-peer-deps
 
 COPY dashboard/ .
 
-# Créer le .env pour le build avec URL relative
-RUN echo "VITE_API_URL=${VITE_API_URL}" > .env && \
-    echo "VITE_API_KEY=${VITE_API_KEY}" >> .env
+# Copier le .env s'il existe, sinon créer un .env par défaut
+RUN if [ -f .env.coolify ]; then \
+        cp .env.coolify .env; \
+    else \
+        echo "VITE_API_URL=${VITE_API_URL}" > .env && \
+        echo "VITE_API_KEY=${VITE_API_KEY}" >> .env; \
+    fi
+
+# Afficher la config (pour debug)
+RUN cat .env
 
 RUN npm run build
 
