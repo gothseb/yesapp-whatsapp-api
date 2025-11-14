@@ -1,22 +1,24 @@
-# YesApp Backend Dockerfile
-FROM node:20-alpine
+# YesApp Backend Dockerfile - Version Debian (Alternative)
+# Utilisez cette version si Alpine pose problème
 
-# Mettre à jour les repositories Alpine et installer les dépendances système
-RUN apk update && \
-    apk upgrade && \
-    apk add --no-cache \
+FROM node:20-slim
+
+# Installer les dépendances système pour Puppeteer
+RUN apt-get update && \
+    apt-get install -y \
     chromium \
-    nss \
-    freetype \
-    harfbuzz \
-    ca-certificates \
-    ttf-freefont \
+    chromium-sandbox \
+    fonts-freefont-ttf \
     wget \
-    curl
+    curl \
+    ca-certificates \
+    --no-install-recommends && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Variables d'environnement pour Puppeteer
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 # Créer le répertoire de l'application
 WORKDIR /app
@@ -24,7 +26,7 @@ WORKDIR /app
 # Copier package.json et package-lock.json
 COPY backend/package*.json ./
 
-# Installer les dépendances
+# Installer les dépendances Node.js
 RUN npm install --legacy-peer-deps --omit=dev
 
 # Copier le code source
