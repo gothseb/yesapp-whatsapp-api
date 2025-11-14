@@ -1,5 +1,8 @@
 version: '3.8'
 
+# Configuration simplifiée SANS health checks
+# Utiliser avec: docker compose -f docker-compose.simple.yml up -d
+
 services:
   # Backend API
   backend:
@@ -20,12 +23,6 @@ services:
       - PORT=3000
     networks:
       - yesapp-network
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 60s
 
   # Dashboard
   dashboard:
@@ -40,12 +37,6 @@ services:
       - backend
     networks:
       - yesapp-network
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
 
 networks:
   yesapp-network:
