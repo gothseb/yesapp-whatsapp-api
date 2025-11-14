@@ -1,0 +1,58 @@
+# Node modules
+node_modules/
+*/node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+*/dist/
+*/build/
+
+# Data directories
+data/
+*.sqlite
+*.sqlite-journal
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test files
+test/
+tests/
+*.test.js
+coverage/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Specs
+specs/
+.specify/
+
+# Misc
+*.bak
+*.tmp
+temp/

@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: yesapp-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      # Persister la base de données et les sessions
+      - ./data:/app/data
+      # Monter .env pour la configuration
+      - ./backend/.env:/app/.env:ro
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - yesapp-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1); })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Dashboard
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    container_name: yesapp-dashboard
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - yesapp-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+networks:
+  yesapp-network:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local

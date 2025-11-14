@@ -1,0 +1,40 @@
+# YesApp Backend Dockerfile
+FROM node:20-alpine
+
+# Installer les dépendances système pour Puppeteer
+RUN apk add --no-cache \
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont
+
+# Variables d'environnement pour Puppeteer
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+# Créer le répertoire de l'application
+WORKDIR /app
+
+# Copier package.json et package-lock.json
+COPY backend/package*.json ./
+
+# Installer les dépendances
+RUN npm ci --only=production
+
+# Copier le code source
+COPY backend/ .
+
+# Créer les répertoires nécessaires
+RUN mkdir -p /app/data/sessions
+
+# Port d'exposition
+EXPOSE 3000
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD node -e "require('http').get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1); })"
+
+# Démarrer l'application
+CMD ["node", "src/index.js"]

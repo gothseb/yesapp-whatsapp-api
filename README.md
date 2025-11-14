@@ -10,6 +10,11 @@ Self-hosted WhatsApp API with multi-session support, modern React dashboard, and
 
 ## ✨ Features
 
+### Deployment
+- 🐳 **Docker Ready** - One-command deployment with docker-compose
+- 📦 **Production Ready** - Optimized Docker images with multi-stage builds
+- 🔒 **SSL Support** - Easy Nginx + Let's Encrypt integration
+
 ### Backend API
 - 🔐 **Secure API Key Authentication** - SHA-256 hashed keys
 - 📱 **Multi-Session Management** - Handle multiple WhatsApp accounts
@@ -41,13 +46,33 @@ Self-hosted WhatsApp API with multi-session support, modern React dashboard, and
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### Method 1: Docker (Recommended for Production) 🐳
+
+**One-command deployment:**
+
+```bash
+# Clone and deploy
+git clone https://github.com/gothseb/yesapp-whatsapp-api.git
+cd yesapp-whatsapp-api
+chmod +x deploy.sh
+./deploy.sh
+```
+
+That's it! Dashboard available at `http://YOUR_IP:8080`
+
+See [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md) for advanced configuration.
+
+---
+
+### Method 2: Local Development
+
+#### Prerequisites
 
 - Node.js 20 LTS or higher
 - npm or yarn
 - Git
 
-### Installation
+#### Installation
 
 ```bash
 # Clone the repository
