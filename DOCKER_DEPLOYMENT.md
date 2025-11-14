@@ -10,7 +10,7 @@ Guide complet pour déployer YesApp WhatsApp API sur un serveur avec Docker.
 
 - **Docker** 20.10+ installé
 - **Docker Compose** 2.0+ installé
-- **Ports disponibles**: 3000 (API) et 8080 (Dashboard)
+- **Ports disponibles**: 3000 (API) et 5173 (Dashboard)
 - **Ressources minimales**: 1 CPU, 2GB RAM, 10GB disque
 
 ### Installation Docker (Ubuntu/Debian)
@@ -129,17 +129,18 @@ sudo docker compose up -d dashboard
 
 ---
 
-## 🌐 Accès aux Services
+## Accès aux Services
 
 Après le déploiement:
 
 - **Backend API**: http://VOTRE_IP:3000
-- **Dashboard**: http://VOTRE_IP:8080
+- **Dashboard**: http://VOTRE_IP:5173
 - **Health Check**: http://VOTRE_IP:3000/health
 - **API Status**: http://VOTRE_IP:3000/api/v1/status
 
 ---
 
+## Sécurisation avec Nginx + SSL (Production)
 ## 🔒 Sécurisation avec Nginx + SSL (Production)
 
 ### Installer Nginx et Certbot
@@ -177,7 +178,7 @@ server {
     server_name dashboard.votre-domaine.com;
 
     location / {
-        proxy_pass http://localhost:8080;
+        proxy_pass http://localhost:5173;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';

@@ -58,7 +58,7 @@ chmod +x deploy.sh
 ./deploy.sh
 ```
 
-That's it! Dashboard available at `http://YOUR_IP:8080`
+That's it! Dashboard available at `http://YOUR_IP:5173`
 
 See [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md) for advanced configuration.
 

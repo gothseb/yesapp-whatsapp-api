@@ -114,7 +114,7 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo ""
 echo "🌐 Accès aux services:"
 echo "   Backend:    http://${SERVER_IP:-localhost}:3000"
-echo "   Dashboard:  http://${SERVER_IP:-localhost}:8080"
+echo "   Dashboard:  http://${SERVER_IP:-localhost}:5173"
 echo "   Health:     http://${SERVER_IP:-localhost}:3000/health"
 echo ""
 if [ -n "$API_KEY" ]; then
