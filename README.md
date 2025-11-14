@@ -46,9 +46,37 @@ Self-hosted WhatsApp API with multi-session support, modern React dashboard, and
 
 ## 🚀 Quick Start
 
-### Method 1: Docker (Recommended for Production) 🐳
+### Method 1A: Unified Deployment - Everything on Port 3000 (EASIEST) 🎯
 
-**One-command deployment:**
+**Single domain for both API and Dashboard:**
+
+```bash
+# Clone
+git clone https://github.com/gothseb/yesapp-whatsapp-api.git
+cd yesapp-whatsapp-api
+
+# Get API Key from backend
+docker compose up -d backend
+docker compose logs backend | grep "API Key"
+
+# Configure
+export VITE_API_KEY="your_api_key_here"
+
+# Deploy unified
+docker compose -f docker-compose.unified.yml up -d
+```
+
+**Access everything on port 3000:**
+- Dashboard: `http://YOUR_IP:3000/`
+- API: `http://YOUR_IP:3000/api/v1/*`
+
+See [UNIFIED_DEPLOYMENT.md](UNIFIED_DEPLOYMENT.md) for details.
+
+---
+
+### Method 1B: Docker Separate Services (Traditional) 🐳
+
+**API and Dashboard on different ports:**
 
 ```bash
 # Clone and deploy
@@ -58,7 +86,7 @@ chmod +x deploy.sh
 ./deploy.sh
 ```
 
-That's it! Dashboard available at `http://YOUR_IP:5173`
+Dashboard: `http://YOUR_IP:5173`, API: `http://YOUR_IP:3000`
 
 See [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md) for advanced configuration.
 
