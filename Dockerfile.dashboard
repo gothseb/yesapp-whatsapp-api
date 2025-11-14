@@ -9,7 +9,7 @@ WORKDIR /app
 COPY dashboard/package*.json ./
 
 # Installer les dépendances
-RUN npm ci
+RUN npm install --legacy-peer-deps
 
 # Copier le code source
 COPY dashboard/ .

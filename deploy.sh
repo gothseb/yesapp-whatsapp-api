@@ -49,8 +49,13 @@ echo ""
 
 # Build les images
 echo "🔨 Build des images Docker..."
-docker compose build
-echo "✅ Images buildées"
+if docker compose build; then
+    echo "✅ Images buildées"
+else
+    echo "❌ Erreur lors du build des images"
+    echo "Vérifiez les logs ci-dessus"
+    exit 1
+fi
 echo ""
 
 # Démarrer les services
