@@ -1,0 +1,140 @@
+{
+  "name": "YesApp - Send Image from URL",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [240, 300],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "imageUrl",
+              "value": "https://picsum.photos/800/600"
+            },
+            {
+              "name": "sessionId",
+              "value": "YOUR_SESSION_ID_HERE"
+            },
+            {
+              "name": "phoneNumber",
+              "value": "+33612345678"
+            },
+            {
+              "name": "caption",
+              "value": "Image envoyée depuis n8n!"
+            },
+            {
+              "name": "apiKey",
+              "value": "b55c6b026c40893309c4a4058cdb6bbdaff2e5b1c49315bbf297f4b360242043"
+            }
+          ]
+        }
+      },
+      "id": "config",
+      "name": "Configuration",
+      "type": "n8n-nodes-base.set",
+      "position": [440, 300],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "url": "={{$json.imageUrl}}",
+        "responseFormat": "file"
+      },
+      "id": "download-image",
+      "name": "Download Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [640, 300],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get binary data and convert to base64\nconst binaryData = $binary.data;\nconst base64String = binaryData.data;\n\n// Get config from previous node\nconst config = $('Configuration').first().json;\n\nreturn {\n  json: {\n    imageBase64: base64String,\n    sessionId: config.sessionId,\n    phoneNumber: config.phoneNumber,\n    caption: config.caption,\n    apiKey: config.apiKey\n  }\n};"
+      },
+      "id": "convert-base64",
+      "name": "Convert to Base64",
+      "type": "n8n-nodes-base.code",
+      "position": [840, 300],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://localhost:3000/api/v1/sessions/{{$json.sessionId}}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "={{$json.apiKey}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyContentType": "json",
+        "body": "={\"to\": \"{{$json.phoneNumber}}\", \"text\": \"{{$json.caption}}\", \"media\": {\"type\": \"image\", \"mimetype\": \"image/jpeg\", \"data\": \"{{$json.imageBase64}}\", \"filename\": \"image.jpg\"}}"
+      },
+      "id": "send-whatsapp",
+      "name": "Send WhatsApp Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [1040, 300],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [
+        [
+          {
+            "node": "Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Configuration": {
+      "main": [
+        [
+          {
+            "node": "Download Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Image": {
+      "main": [
+        [
+          {
+            "node": "Convert to Base64",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to Base64": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

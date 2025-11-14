@@ -1,0 +1,9 @@
+# YesApp API Key
+# Cette clé a été générée au premier démarrage
+# NE PAS COMMIT CE FICHIER
+# Utilisez cette clé dans le header X-API-Key pour toutes les requêtes API
+
+# Pour récupérer la clé, regardez les logs au premier démarrage
+# ou supprimez data/db.sqlite et redémarrez le serveur
+
+# La clé sera affichée une seule fois lors de la génération initiale

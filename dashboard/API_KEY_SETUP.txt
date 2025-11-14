@@ -1,0 +1,81 @@
+===========================================
+CONFIGURATION MANUELLE DE L'API KEY
+===========================================
+
+Étape 1: COPIER VOTRE API KEY
+-------------------------------------------
+Regardez les logs du backend (terminal où tourne "npm run dev")
+Cherchez cette section lors du PREMIER démarrage:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔐 API KEY GENERATED (SAVE THIS)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   [VOTRE CLE ICI - longue chaîne de caractères]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+COPIEZ cette clé complètement.
+
+
+Étape 2: CRÉER LE FICHIER .env
+-------------------------------------------
+
+OPTION A - Via PowerShell (RECOMMANDÉ):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. Ouvrez PowerShell dans le dossier "dashboard"
+2. Exécutez cette commande (remplacez VOTRE_CLE par la clé copiée):
+
+echo "VITE_API_KEY=VOTRE_CLE_ICI" > .env
+
+
+OPTION B - Manuellement:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. Dans le dossier "dashboard", créez un nouveau fichier nommé: .env
+   (Attention: le nom commence par un point)
+   
+2. Ouvrez ce fichier avec un éditeur de texte
+
+3. Collez EXACTEMENT ce contenu (en remplaçant VOTRE_CLE):
+
+VITE_API_KEY=VOTRE_CLE_ICI
+
+4. Sauvegardez le fichier
+
+
+Étape 3: REDÉMARRER LE DASHBOARD
+-------------------------------------------
+1. Dans le terminal du dashboard, appuyez sur Ctrl+C
+2. Relancez: npm run dev
+3. Ouvrez: http://localhost:5173
+
+
+PROBLÈME: Vous n'avez pas la clé?
+-------------------------------------------
+Si vous n'avez pas noté l'API Key lors du premier démarrage:
+
+1. Arrêtez le backend (Ctrl+C)
+2. Supprimez le fichier: data\db.sqlite
+3. Relancez le backend: npm run dev
+4. La NOUVELLE clé s'affichera dans les logs
+5. COPIEZ-LA immédiatement!
+6. Suivez les étapes ci-dessus
+
+
+VÉRIFICATION
+-------------------------------------------
+Une fois configuré correctement:
+✓ Le dashboard ne montre plus d'erreur "Cannot connect to API"
+✓ Vous pouvez créer des sessions
+✓ Les QR codes s'affichent
+✓ Vous pouvez envoyer des messages
+
+En cas d'erreur 401 "UNAUTHORIZED":
+→ Votre API key est incorrecte
+→ Vérifiez que le fichier .env contient bien VITE_API_KEY=...
+→ Redémarrez le dashboard après modification
+
+
+EXEMPLE DE FICHIER .env COMPLET:
+-------------------------------------------
+VITE_API_KEY=a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6
