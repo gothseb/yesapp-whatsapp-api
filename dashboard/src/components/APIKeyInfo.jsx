@@ -86,13 +86,27 @@ function APIKeyInfo() {
         </div>
 
         {/* Quick n8n Setup */}
-        <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-          <h4 className="text-sm font-medium text-blue-900 mb-2">🚀 Configuration n8n Rapide</h4>
-          <div className="text-xs text-blue-800 space-y-1">
-            <p><strong>Method:</strong> POST</p>
-            <p><strong>URL:</strong> http://localhost:3000/api/v1/sessions/SESSION_ID/messages</p>
-            <p><strong>Header:</strong> X-API-Key: {API_KEY.substring(0, 20)}...</p>
-            <p><strong>Body:</strong> {`{"to": "+33612345678", "text": "Hello!"}`}</p>
+        <div className="mt-4 space-y-3">
+          {/* Example 1: Text Message */}
+          <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+            <h4 className="text-sm font-medium text-blue-900 mb-2">🚀 Configuration n8n - Message Texte</h4>
+            <div className="text-xs text-blue-800 space-y-1">
+              <p><strong>Method:</strong> POST</p>
+              <p><strong>URL:</strong> http://localhost:3000/api/v1/sessions/SESSION_ID/messages</p>
+              <p><strong>Header:</strong> X-API-Key: {API_KEY.substring(0, 20)}...</p>
+              <p><strong>Body:</strong> {`{"to": "+33612345678", "text": "Hello!"}`}</p>
+            </div>
+          </div>
+
+          {/* Example 2: Image Message */}
+          <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+            <h4 className="text-sm font-medium text-green-900 mb-2">📸 Configuration n8n - Envoi Image</h4>
+            <div className="text-xs text-green-800 space-y-1">
+              <p><strong>Method:</strong> POST</p>
+              <p><strong>URL:</strong> http://localhost:3000/api/v1/sessions/SESSION_ID/messages</p>
+              <p><strong>Header:</strong> X-API-Key: {API_KEY.substring(0, 20)}...</p>
+              <p><strong>Body:</strong> {`{"to": "+33612345678", "text": "Voici l'image", "media": {"url": "https://example.com/image.jpg"}}`}</p>
+            </div>
           </div>
         </div>
       </div>
