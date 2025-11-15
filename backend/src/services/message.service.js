@@ -121,8 +121,22 @@ class MessageService {
       throw new Error('WhatsApp client not ready');
     }
 
-    // Format phone number
-    const formattedNumber = to.replace('+', '') + '@c.us';
+    // Déterminer si c'est un groupe ou un contact et formater
+    let formattedRecipient;
+    
+    if (to.includes('@g.us')) {
+      // C'est déjà un ID de groupe WhatsApp
+      formattedRecipient = to;
+      console.log(`   📱 Target: Group ${to}`);
+    } else if (to.includes('@c.us')) {
+      // C'est déjà un ID de contact WhatsApp
+      formattedRecipient = to;
+      console.log(`   📱 Target: Contact ${to}`);
+    } else {
+      // C'est un numéro de téléphone E.164, convertir en ID WhatsApp
+      formattedRecipient = to.replace('+', '') + '@c.us';
+      console.log(`   📱 Target: Phone ${to} → ${formattedRecipient}`);
+    }
 
     // Create message record
     const message = MessageModel.create({
@@ -145,7 +159,7 @@ class MessageService {
       );
 
       // Send via WhatsApp
-      const sentMessage = await client.sendMessage(formattedNumber, messageMedia, {
+      const sentMessage = await client.sendMessage(formattedRecipient, messageMedia, {
         caption: media.caption || '',
       });
 
