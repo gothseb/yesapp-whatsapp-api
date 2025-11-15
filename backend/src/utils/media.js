@@ -1,4 +1,5 @@
-import axios from 'axios';
+import https from 'https';
+import http from 'http';
 import mime from 'mime-types';
 
 /**
@@ -12,67 +13,110 @@ import mime from 'mime-types';
  * @returns {Promise<Object>} { data: base64, mimetype, filename }
  */
 export async function downloadImageAsBase64(url) {
-  try {
-    console.log(`📥 Downloading image from: ${url}`);
+  return new Promise((resolve, reject) => {
+    try {
+      console.log(`📥 Downloading image from: ${url}`);
 
-    // Download image
-    const response = await axios.get(url, {
-      responseType: 'arraybuffer',
-      timeout: 30000,
-      maxContentLength: 16 * 1024 * 1024, // 16MB max
-      headers: {
-        'User-Agent': 'YesApp-WhatsApp-API/1.0',
-      },
-    });
+      const urlObj = new URL(url);
+      const client = urlObj.protocol === 'https:' ? https : http;
 
-    // Convert to base64
-    const base64 = Buffer.from(response.data).toString('base64');
+      const options = {
+        headers: {
+          'User-Agent': 'YesApp-WhatsApp-API/1.0',
+        },
+        timeout: 30000,
+      };
 
-    // Get mimetype from response headers or URL
-    let mimetype = response.headers['content-type'];
-    if (!mimetype || mimetype === 'application/octet-stream') {
-      // Try to guess from URL
-      mimetype = mime.lookup(url) || 'image/jpeg';
-    }
+      const req = client.get(url, options, (response) => {
+        // Handle redirects
+        if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+          return downloadImageAsBase64(response.headers.location)
+            .then(resolve)
+            .catch(reject);
+        }
 
-    // Extract filename from URL
-    const urlParts = new URL(url);
-    let filename = urlParts.pathname.split('/').pop() || 'image';
-    
-    // Add extension if missing
-    if (!filename.includes('.')) {
-      const ext = mime.extension(mimetype);
-      filename = `${filename}.${ext || 'jpg'}`;
-    }
+        // Handle errors
+        if (response.statusCode === 404) {
+          return reject(new Error('Image not found (404)'));
+        }
+        if (response.statusCode === 403) {
+          return reject(new Error('Access to image forbidden (403)'));
+        }
+        if (response.statusCode !== 200) {
+          return reject(new Error(`HTTP ${response.statusCode}: ${response.statusMessage}`));
+        }
 
-    console.log(`   ✅ Downloaded: ${filename} (${mimetype}, ${(base64.length / 1024).toFixed(2)} KB)`);
+        const chunks = [];
+        let totalSize = 0;
+        const maxSize = 16 * 1024 * 1024; // 16MB
 
-    return {
-      data: base64,
-      mimetype,
-      filename,
-    };
-  } catch (error) {
-    console.error(`   ❌ Failed to download image:`, error.message);
-    
-    if (error.code === 'ENOTFOUND') {
-      throw new Error('Image URL not found or unreachable');
+        response.on('data', (chunk) => {
+          totalSize += chunk.length;
+          if (totalSize > maxSize) {
+            req.destroy();
+            return reject(new Error('Image too large (max 16MB)'));
+          }
+          chunks.push(chunk);
+        });
+
+        response.on('end', () => {
+          try {
+            // Convert to base64
+            const buffer = Buffer.concat(chunks);
+            const base64 = buffer.toString('base64');
+
+            // Get mimetype from response headers or URL
+            let mimetype = response.headers['content-type'];
+            if (!mimetype || mimetype === 'application/octet-stream') {
+              mimetype = mime.lookup(url) || 'image/jpeg';
+            }
+
+            // Extract filename from URL
+            let filename = urlObj.pathname.split('/').pop() || 'image';
+            
+            // Add extension if missing
+            if (!filename.includes('.')) {
+              const ext = mime.extension(mimetype);
+              filename = `${filename}.${ext || 'jpg'}`;
+            }
+
+            console.log(`   ✅ Downloaded: ${filename} (${mimetype}, ${(base64.length / 1024).toFixed(2)} KB)`);
+
+            resolve({
+              data: base64,
+              mimetype,
+              filename,
+            });
+          } catch (error) {
+            reject(new Error(`Failed to process image: ${error.message}`));
+          }
+        });
+
+        response.on('error', (error) => {
+          reject(new Error(`Download error: ${error.message}`));
+        });
+      });
+
+      req.on('timeout', () => {
+        req.destroy();
+        reject(new Error('Image download timeout (max 30s)'));
+      });
+
+      req.on('error', (error) => {
+        if (error.code === 'ENOTFOUND') {
+          reject(new Error('Image URL not found or unreachable'));
+        } else if (error.code === 'ETIMEDOUT') {
+          reject(new Error('Image download timeout (max 30s)'));
+        } else {
+          reject(new Error(`Failed to download image: ${error.message}`));
+        }
+      });
+
+      req.end();
+    } catch (error) {
+      reject(new Error(`Invalid URL: ${error.message}`));
     }
-    
-    if (error.code === 'ETIMEDOUT') {
-      throw new Error('Image download timeout (max 30s)');
-    }
-    
-    if (error.response?.status === 404) {
-      throw new Error('Image not found (404)');
-    }
-    
-    if (error.response?.status === 403) {
-      throw new Error('Access to image forbidden (403)');
-    }
-    
-    throw new Error(`Failed to download image: ${error.message}`);
-  }
+  });
 }
 
 /**
