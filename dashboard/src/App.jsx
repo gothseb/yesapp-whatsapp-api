@@ -4,12 +4,36 @@ import QRCodeDisplay from './components/QRCodeDisplay';
 import SendMessage from './components/SendMessage';
 import APIKeyInfo from './components/APIKeyInfo';
 import GroupList from './components/GroupList';
+import Login from './components/Login';
 import api from './api/client';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [health, setHealth] = useState(null);
   const [selectedSessionId, setSelectedSessionId] = useState(null);
   const [error, setError] = useState(null);
+
+  // Vérifier l'authentification au chargement
+  useEffect(() => {
+    const authStatus = sessionStorage.getItem('dashboardAuth');
+    if (authStatus === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('dashboardAuth');
+    setIsAuthenticated(false);
+  };
+
+  // Si non authentifié, afficher la page de login
+  if (!isAuthenticated) {
+    return <Login onLogin={handleLogin} />;
+  }
 
   useEffect(() => {
     const fetchHealth = async () => {
@@ -45,14 +69,25 @@ function App() {
               </div>
             </div>
             
-            {health && (
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-sm text-gray-600">
-                  {health.status === 'healthy' ? 'Connected' : 'Disconnected'}
-                </span>
-              </div>
-            )}
+            <div className="flex items-center space-x-4">
+              {health && (
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm text-gray-600">
+                    {health.status === 'healthy' ? 'Connected' : 'Disconnected'}
+                  </span>
+                </div>
+              )}
+              
+              {/* Logout Button */}
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                title="Se déconnecter"
+              >
+                🚪 Déconnexion
+              </button>
+            </div>
           </div>
         </div>
       </header>
