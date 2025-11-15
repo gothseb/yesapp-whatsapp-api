@@ -16,6 +16,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
+      - API_KEY=${VITE_API_KEY}
     networks:
       - yesapp-network
     healthcheck:

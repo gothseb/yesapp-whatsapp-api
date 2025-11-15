@@ -40,6 +40,37 @@ class APIKeyModel {
   }
 
   /**
+   * Create a new API key with a pre-configured key
+   * @param {string} key - Pre-configured plaintext key
+   * @param {string} name - Key name/description
+   * @param {Array} permissions - Permissions array
+   * @returns {Object} { key (plaintext), keyHash, name }
+   */
+  static createWithKey(key, name = 'default', permissions = ['read', 'write']) {
+    const db = getDatabase();
+
+    // Hash the provided key for storage
+    const keyHash = this._hashKey(key);
+
+    const now = Date.now();
+
+    const sql = `
+      INSERT INTO api_keys (key_hash, name, permissions, created_at)
+      VALUES (?, ?, ?, ?)
+    `;
+
+    db.run(sql, [keyHash, name, JSON.stringify(permissions), now]);
+
+    return {
+      key, // Return plaintext key
+      keyHash,
+      name,
+      permissions,
+      created_at: now,
+    };
+  }
+
+  /**
    * Verify an API key
    * @param {string} key - Plaintext key to verify
    * @returns {Object|null} Key info or null if invalid
