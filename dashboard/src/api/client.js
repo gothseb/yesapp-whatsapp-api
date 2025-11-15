@@ -84,10 +84,16 @@ const api = {
   getGroup: (sessionId, groupId) =>
     apiClient.get(`/sessions/${sessionId}/groups/${groupId}`),
 
-  // Health
-  getHealth: () => axios.get('http://localhost:3000/health'),
+  // Health - utilise l'URL du backend configurée
+  getHealth: () => {
+    const baseUrl = API_BASE_URL.replace('/api/v1', '');
+    return axios.get(`${baseUrl}/health`);
+  },
   
-  getReady: () => axios.get('http://localhost:3000/ready'),
+  getReady: () => {
+    const baseUrl = API_BASE_URL.replace('/api/v1', '');
+    return axios.get(`${baseUrl}/ready`);
+  },
 };
 
 export default api;
