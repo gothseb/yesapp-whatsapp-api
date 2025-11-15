@@ -7,6 +7,7 @@ import {
   validateMessageContent,
 } from '../middleware/validation.middleware.js';
 import { rateLimitMessages, getRateLimitStats } from '../middleware/ratelimit.middleware.js';
+import { downloadImageAsBase64, isValidImageUrl, getMediaType } from '../utils/media.js';
 
 const router = express.Router();
 const messageService = getMessageService();
@@ -31,20 +32,60 @@ router.post(
 
       if (media) {
         // Send media message
-        if (!media.type || !media.data) {
+        let mediaData;
+        
+        // Check if URL is provided instead of base64 data
+        if (media.url) {
+          console.log('📥 Downloading image from URL:', media.url);
+          
+          // Validate URL
+          if (!isValidImageUrl(media.url)) {
+            return res.status(400).json({
+              error: 'VALIDATION_ERROR',
+              message: 'Invalid media URL (must be http:// or https://)',
+            });
+          }
+          
+          try {
+            // Download and convert to base64
+            const downloaded = await downloadImageAsBase64(media.url);
+            mediaData = {
+              type: media.type || getMediaType(downloaded.mimetype),
+              data: downloaded.data,
+              mimetype: media.mimetype || downloaded.mimetype,
+              filename: media.filename || downloaded.filename,
+              caption: text || media.caption,
+            };
+          } catch (error) {
+            return res.status(400).json({
+              error: 'DOWNLOAD_ERROR',
+              message: error.message,
+            });
+          }
+        } else if (media.data) {
+          // Base64 data provided directly
+          if (!media.type) {
+            return res.status(400).json({
+              error: 'VALIDATION_ERROR',
+              message: 'Media requires type when using base64 data',
+            });
+          }
+          
+          mediaData = {
+            type: media.type,
+            data: media.data,
+            mimetype: media.mimetype || 'application/octet-stream',
+            filename: media.filename,
+            caption: text || media.caption,
+          };
+        } else {
           return res.status(400).json({
             error: 'VALIDATION_ERROR',
-            message: 'Media requires type and data (base64)',
+            message: 'Media requires either url or data (base64)',
           });
         }
 
-        message = await messageService.sendMediaMessage(sessionId, to, {
-          type: media.type,
-          data: media.data,
-          mimetype: media.mimetype || 'application/octet-stream',
-          filename: media.filename,
-          caption: text || media.caption,
-        });
+        message = await messageService.sendMediaMessage(sessionId, to, mediaData);
       } else {
         // Send text message
         message = await messageService.sendMessage(sessionId, to, text);

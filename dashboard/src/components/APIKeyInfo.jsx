@@ -100,20 +100,14 @@ function APIKeyInfo() {
 
           {/* Example 2: Image Message */}
           <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-            <h4 className="text-sm font-medium text-green-900 mb-2">📸 Configuration n8n - Envoi Image (2 nœuds)</h4>
-            <div className="text-xs text-green-800 space-y-2">
-              <div>
-                <p className="font-semibold">1️⃣ Download Image (HTTP Request):</p>
-                <p className="ml-3">URL: https://example.com/image.jpg</p>
-                <p className="ml-3">Response Format: File</p>
-              </div>
-              <div>
-                <p className="font-semibold">2️⃣ Send to WhatsApp (HTTP Request):</p>
-                <p className="ml-3"><strong>Method:</strong> POST</p>
-                <p className="ml-3"><strong>Header:</strong> X-API-Key: {API_KEY.substring(0, 20)}...</p>
-                <p className="ml-3"><strong>Body:</strong> {`{"to": "+33612345678", "text": "Image", "media": {"type": "image", "mimetype": "image/jpeg", "data": "{{$binary.data.toString('base64')}}"}}`}</p>
-              </div>
+            <h4 className="text-sm font-medium text-green-900 mb-2">📸 Configuration n8n - Envoi Image</h4>
+            <div className="text-xs text-green-800 space-y-1">
+              <p><strong>Method:</strong> POST</p>
+              <p><strong>URL:</strong> http://localhost:3000/api/v1/sessions/SESSION_ID/messages</p>
+              <p><strong>Header:</strong> X-API-Key: {API_KEY.substring(0, 20)}...</p>
+              <p><strong>Body:</strong> {`{"to": "+33612345678", "text": "Voici l'image", "media": {"url": "https://example.com/image.jpg"}}`}</p>
             </div>
+            <p className="text-xs text-green-700 mt-2 italic">✨ Le backend télécharge automatiquement l'image!</p>
           </div>
         </div>
       </div>
