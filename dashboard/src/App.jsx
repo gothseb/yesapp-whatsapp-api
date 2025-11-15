@@ -21,6 +21,25 @@ function App() {
     }
   }, []);
 
+  // Fetch health check - s'exécute seulement si authentifié
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const fetchHealth = async () => {
+      try {
+        const response = await api.getHealth();
+        setHealth(response.data);
+        setError(null);
+      } catch (err) {
+        setError('Cannot connect to API');
+      }
+    };
+
+    fetchHealth();
+    const interval = setInterval(fetchHealth, 10000);
+    return () => clearInterval(interval);
+  }, [isAuthenticated]);
+
   const handleLogin = () => {
     setIsAuthenticated(true);
   };
@@ -34,22 +53,6 @@ function App() {
   if (!isAuthenticated) {
     return <Login onLogin={handleLogin} />;
   }
-
-  useEffect(() => {
-    const fetchHealth = async () => {
-      try {
-        const response = await api.getHealth();
-        setHealth(response.data);
-        setError(null);
-      } catch (err) {
-        setError('Cannot connect to API');
-      }
-    };
-
-    fetchHealth();
-    const interval = setInterval(fetchHealth, 10000); // Poll every 10 seconds
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100">
