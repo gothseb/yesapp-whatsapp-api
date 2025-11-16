@@ -1,0 +1,55 @@
+{
+  "name": "YesApp - Send Image from URL (Fixed)",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "id": "trigger-1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://yourdomain.com:3000/api/v1/sessions/66dd1890-da37-4c07-b0da-a2437ddd3808/messages",
+        "authentication": "none",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "0dbcbe012f8e37a1313263e60ff215c51bf40863d4ece233be50a78d0a5e2a66"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"to\": \"33781018105\",\n  \"text\": \"test\",\n  \"media\": {\n    \"url\": \"https://image.tmdb.org/t/p/original/rLi9cokiFU20mLUPvQ0IRok3ELY.jpg\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [450, 300],
+      "id": "http-request-1",
+      "name": "Send Image to WhatsApp"
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send Image to WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

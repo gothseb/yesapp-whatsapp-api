@@ -17,7 +17,7 @@ HTTP Request - Send Image
 
 Method: POST
 
-URL: https://l8g04s04scsw0so8ss8ckcoc.sebapp-lab.com/api/v1/sessions/YOUR_SESSION_ID/messages
+URL: https://l8g04s04scsw0so8ss8ckcoc.yourdomain.com/api/v1/sessions/YOUR_SESSION_ID/messages
 
 ━━━ Headers ━━━
 ☑ Send Headers
@@ -310,7 +310,7 @@ Pour les cas où vous avez déjà l'image en base64.
       "type": "n8n-nodes-base.httpRequest",
       "parameters": {
         "method": "POST",
-        "url": "https://l8g04s04scsw0so8ss8ckcoc.sebapp-lab.com/api/v1/sessions/SESSION_ID/messages",
+        "url": "https://l8g04s04scsw0so8ss8ckcoc.yourdomain.com/api/v1/sessions/SESSION_ID/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [

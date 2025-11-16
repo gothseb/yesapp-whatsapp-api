@@ -61,7 +61,7 @@ HTTP Request - Send to WhatsApp
 
 Method: POST
 
-URL: https://l8g04s04scsw0so8ss8ckcoc.sebapp-lab.com/api/v1/sessions/YOUR_SESSION_ID/messages
+URL: https://l8g04s04scsw0so8ss8ckcoc.yourdomain.com/api/v1/sessions/YOUR_SESSION_ID/messages
 
 ━━━ Headers ━━━
 ☑ Send Headers
@@ -121,7 +121,7 @@ Body Content Type: JSON
 **Method & URL:**
 ```
 Method: POST
-URL: https://l8g04s04scsw0so8ss8ckcoc.sebapp-lab.com/api/v1/sessions/SESSION_ID/messages
+URL: https://l8g04s04scsw0so8ss8ckcoc.yourdomain.com/api/v1/sessions/SESSION_ID/messages
 ```
 
 **Headers:**

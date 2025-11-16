@@ -78,7 +78,7 @@ SESSIONS_PATH=/app/data/sessions
 #### Étape 4: Domaine
 
 ```
-sebapp-lab.com:3000
+yourdomain.com:3000
 ```
 
 ou utilisez le domaine auto-généré de Coolify pour le service **unified**.
@@ -135,7 +135,7 @@ cat /app/data/db.sqlite | strings | grep -E '[a-f0-9]{64}'
 ### Test 1: Dashboard
 
 ```bash
-curl http://sebapp-lab.com:3000/
+curl http://yourdomain.com:3000/
 ```
 
 **Attendu:** Code HTML du dashboard (pas JSON!)
@@ -143,7 +143,7 @@ curl http://sebapp-lab.com:3000/
 ### Test 2: API Health
 
 ```bash
-curl http://sebapp-lab.com:3000/health
+curl http://yourdomain.com:3000/health
 ```
 
 **Attendu:** `{"status":"healthy",...}`
@@ -151,7 +151,7 @@ curl http://sebapp-lab.com:3000/health
 ### Test 3: API Status
 
 ```bash
-curl http://sebapp-lab.com:3000/api/v1/status
+curl http://yourdomain.com:3000/api/v1/status
 ```
 
 **Attendu:** `{"message":"YesApp WhatsApp API v1",...}`
@@ -213,7 +213,7 @@ curl http://sebapp-lab.com:3000/api/v1/status
 - [ ] API Key récupérée depuis les logs backend
 - [ ] `VITE_API_KEY` configurée dans les variables unified
 - [ ] Force Rebuild du service unified effectué
-- [ ] Test: `curl http://sebapp-lab.com:3000/` retourne HTML ✅
+- [ ] Test: `curl http://yourdomain.com:3000/` retourne HTML ✅
 - [ ] Test: Dashboard accessible dans le navigateur ✅
 - [ ] Création de session WhatsApp possible ✅
 
@@ -268,7 +268,7 @@ curl http://localhost:3000/api/v1/status
 
 **Vous saurez que tout fonctionne quand:**
 
-1. `http://sebapp-lab.com:3000/` affiche le **Dashboard React**
+1. `http://yourdomain.com:3000/` affiche le **Dashboard React**
 2. Vous pouvez **créer une session** WhatsApp
 3. Un **QR code** s'affiche
 4. Après scan, vous pouvez **envoyer des messages**

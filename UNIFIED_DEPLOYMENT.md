@@ -86,13 +86,13 @@ https://votre-domaine.com/health    → Health Check
 **Exemple:**
 ```bash
 # Dashboard
-curl https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com/
+curl https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com/
 
 # API
-curl https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com/api/v1/status
+curl https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com/api/v1/status
 
 # Health
-curl https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com/health
+curl https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com/health
 ```
 
 ---
@@ -127,7 +127,7 @@ Le dashboard sera automatiquement configuré pour utiliser l'**API relative**:
 
 **Avant (2 domaines):**
 ```env
-VITE_API_URL=https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com/api/v1
+VITE_API_URL=https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com/api/v1
 ```
 
 **Maintenant (même domaine):**

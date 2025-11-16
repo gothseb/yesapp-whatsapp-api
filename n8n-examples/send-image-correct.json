@@ -27,7 +27,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://l8g04s04scsw0so8ss8ckcoc.sebapp-lab.com/api/v1/sessions/YOUR_SESSION_ID/messages",
+        "url": "https://l8g04s04scsw0so8ss8ckcoc.yourdomain.com/api/v1/sessions/YOUR_SESSION_ID/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [

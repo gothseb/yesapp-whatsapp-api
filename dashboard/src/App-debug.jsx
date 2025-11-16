@@ -123,7 +123,7 @@ function App() {
               <p className="text-red-800 font-medium">{error}</p>
             </div>
             <p className="mt-2 text-sm text-red-600">
-              Backend: https://l8g04s04scsw0so8ss8ckcoc.sebapp-lab.com
+              Backend: https://l8g04s04scsw0so8ss8ckcoc.yourdomain.com
             </p>
           </div>
         )}

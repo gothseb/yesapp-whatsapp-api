@@ -27,7 +27,7 @@ Guide pour déployer YesApp WhatsApp API sur Coolify avec HTTPS automatique.
 
 **Configuration**:
 - **Port interne**: 3000
-- **Domaine**: Généré automatiquement par Coolify (ex: `bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com`)
+- **Domaine**: Généré automatiquement par Coolify (ex: `bgg0kgo8kc448os8wg4c4cg4.yourdomain.com`)
 - **HTTPS**: ✅ Activé automatiquement
 
 **Variables d'Environnement** (dans Coolify):
@@ -46,12 +46,12 @@ SESSIONS_PATH=/app/data/sessions
 
 **Configuration**:
 - **Port interne**: 80
-- **Domaine**: Généré automatiquement (ex: `fokwgc8wgosko08g0s80osco.sebapp-lab.com`)
+- **Domaine**: Généré automatiquement (ex: `fokwgc8wgosko08g0s80osco.yourdomain.com`)
 - **HTTPS**: ✅ Activé automatiquement
 
 **Variables d'Environnement** (dans Coolify):
 ```env
-VITE_API_URL=https://VOTRE_BACKEND_URL.sebapp-lab.com/api/v1
+VITE_API_URL=https://VOTRE_BACKEND_URL.yourdomain.com/api/v1
 VITE_API_KEY=SERA_GENERE_APRES_PREMIER_DEMARRAGE
 ```
 
@@ -63,10 +63,10 @@ VITE_API_KEY=SERA_GENERE_APRES_PREMIER_DEMARRAGE
 
 Vos variables actuelles sont correctes:
 ```env
-SERVICE_FQDN_BACKEND=bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com
-SERVICE_FQDN_DASHBOARD=fokwgc8wgosko08g0s80osco.sebapp-lab.com
-SERVICE_URL_BACKEND=https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com
-SERVICE_URL_DASHBOARD=https://fokwgc8wgosko08g0s80osco.sebapp-lab.com
+SERVICE_FQDN_BACKEND=bgg0kgo8kc448os8wg4c4cg4.yourdomain.com
+SERVICE_FQDN_DASHBOARD=fokwgc8wgosko08g0s80osco.yourdomain.com
+SERVICE_URL_BACKEND=https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com
+SERVICE_URL_DASHBOARD=https://fokwgc8wgosko08g0s80osco.yourdomain.com
 DATABASE_PATH=/app/data/db.sqlite
 NODE_ENV=production
 PORT=3000
@@ -78,7 +78,7 @@ SESSIONS_PATH=/app/data/sessions
 #### Dashboard (.env dans Coolify)
 
 ```env
-VITE_API_URL=https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com/api/v1
+VITE_API_URL=https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com/api/v1
 VITE_API_KEY=VOTRE_API_KEY_ICI
 ```
 
@@ -193,9 +193,9 @@ CMD ["nginx", "-g", "daemon off;"]
 
 Après déploiement:
 
-- **Backend API**: https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com
-- **Dashboard**: https://fokwgc8wgosko08g0s80osco.sebapp-lab.com
-- **Health Check**: https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com/health
+- **Backend API**: https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com
+- **Dashboard**: https://fokwgc8wgosko08g0s80osco.yourdomain.com
+- **Health Check**: https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com/health
 
 ---
 
@@ -217,17 +217,17 @@ Coolify gère automatiquement:
 
 ```bash
 # Test health check
-curl https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com/health
+curl https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com/health
 
 # Test API
-curl https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com/api/v1/status
+curl https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com/api/v1/status
 ```
 
 ### 2. Dashboard Accessible
 
 ```bash
 # Test dashboard
-curl https://fokwgc8wgosko08g0s80osco.sebapp-lab.com/
+curl https://fokwgc8wgosko08g0s80osco.yourdomain.com/
 ```
 
 ### 3. Logs dans Coolify
@@ -298,7 +298,7 @@ Dans Coolify:
 **Solution**:
 ```bash
 # Dans Coolify, mettre à jour les variables du Dashboard
-VITE_API_URL=https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com/api/v1
+VITE_API_URL=https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com/api/v1
 VITE_API_KEY=votre_api_key_ici
 
 # Redéployer
@@ -383,10 +383,10 @@ Dans Coolify, configurez:
 Vos variables sont **parfaitement configurées** pour Coolify:
 
 ```env
-✅ SERVICE_FQDN_BACKEND=bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com
-✅ SERVICE_FQDN_DASHBOARD=fokwgc8wgosko08g0s80osco.sebapp-lab.com
-✅ SERVICE_URL_BACKEND=https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com
-✅ SERVICE_URL_DASHBOARD=https://fokwgc8wgosko08g0s80osco.sebapp-lab.com
+✅ SERVICE_FQDN_BACKEND=bgg0kgo8kc448os8wg4c4cg4.yourdomain.com
+✅ SERVICE_FQDN_DASHBOARD=fokwgc8wgosko08g0s80osco.yourdomain.com
+✅ SERVICE_URL_BACKEND=https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com
+✅ SERVICE_URL_DASHBOARD=https://fokwgc8wgosko08g0s80osco.yourdomain.com
 ✅ DATABASE_PATH=/app/data/db.sqlite
 ✅ NODE_ENV=production
 ✅ PORT=3000
@@ -404,20 +404,20 @@ Vos variables sont **parfaitement configurées** pour Coolify:
 
 1. **Vérifiez que le backend a démarré**:
    ```bash
-   curl https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com/health
+   curl https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com/health
    ```
 
 2. **Récupérez l'API Key** depuis les logs Coolify
 
 3. **Configurez le Dashboard**:
    ```env
-   VITE_API_URL=https://bgg0kgo8kc448os8wg4c4cg4.sebapp-lab.com/api/v1
+   VITE_API_URL=https://bgg0kgo8kc448os8wg4c4cg4.yourdomain.com/api/v1
    VITE_API_KEY=votre_api_key_recuperee
    ```
 
 4. **Redéployez le Dashboard**
 
-5. **Accédez au Dashboard**: https://fokwgc8wgosko08g0s80osco.sebapp-lab.com
+5. **Accédez au Dashboard**: https://fokwgc8wgosko08g0s80osco.yourdomain.com
 
 6. **Créez votre session WhatsApp** et commencez à automatiser! 🎉
 
