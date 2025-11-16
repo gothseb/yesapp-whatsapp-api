@@ -14,6 +14,7 @@ Self-hosted WhatsApp API with multi-session support, modern React dashboard, and
 - 🐳 **Docker Ready** - One-command deployment with docker-compose
 - 📦 **Production Ready** - Optimized Docker images with multi-stage builds
 - 🔒 **SSL Support** - Easy Nginx + Let's Encrypt integration
+- 💾 **Persistent Sessions** - WhatsApp sessions survive redeploys automatically
 
 ### Backend API
 - 🔐 **Secure API Key Authentication** - SHA-256 hashed keys
@@ -160,6 +161,7 @@ npm run dev
 ## 📖 Documentation
 
 - **[Quick Start Guide](QUICK_START.md)** - Complete setup instructions
+- **[Volumes Persistence](VOLUMES_PERSISTENCE.md)** - Session persistence & backups
 - **[n8n Integration Guide](N8N_INTEGRATION_GUIDE.md)** - Automate with n8n
 - **[Groups Guide](GROUPS_GUIDE.md)** - Work with WhatsApp groups
 - **[Project Summary](PROJECT_SUMMARY.md)** - Architecture and features

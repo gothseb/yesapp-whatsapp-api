@@ -202,7 +202,33 @@ curl http://yourdomain.com:3000/api/v1/status
 
 ---
 
-## 📋 Checklist de Déploiement
+## � Persistance des Sessions
+
+### ✅ Sessions Persistantes
+
+**Bonne nouvelle!** Les sessions WhatsApp sont automatiquement persistantes grâce aux volumes Docker.
+
+**Ce qui est sauvegardé:**
+- ✅ Authentification WhatsApp (pas besoin de rescanner le QR après redéploiement)
+- ✅ Base de données (API keys)
+- ✅ Historique des sessions
+
+**Configuration:**
+
+Les fichiers `docker-compose` utilisent un volume nommé `backend-data` qui persiste automatiquement:
+
+```yaml
+volumes:
+  - backend-data:/app/data  # Contient sessions + database
+```
+
+**Coolify gère tout automatiquement!** Vous n'avez rien à faire. 🎉
+
+📖 **Plus d'infos:** Voir `VOLUMES_PERSISTENCE.md`
+
+---
+
+## � Checklist de Déploiement
 
 - [ ] Coolify: Nouveau service Docker Compose créé
 - [ ] Repository: `https://github.com/gothseb/yesapp-whatsapp-api`
@@ -272,6 +298,15 @@ curl http://localhost:3000/api/v1/status
 2. Vous pouvez **créer une session** WhatsApp
 3. Un **QR code** s'affiche
 4. Après scan, vous pouvez **envoyer des messages**
+5. **BONUS:** Après un redéploiement, la session reste connectée ✅
+
+---
+
+## 📚 Documentation Complémentaire
+
+- **[VOLUMES_PERSISTENCE.md](./VOLUMES_PERSISTENCE.md)** - Persistance des sessions et backup
+- **[COOLIFY_DEPLOYMENT.md](./COOLIFY_DEPLOYMENT.md)** - Guide complet Coolify
+- **[UNIFIED_DEPLOYMENT.md](./UNIFIED_DEPLOYMENT.md)** - Architecture unifiée
 
 ---
 

@@ -12,7 +12,7 @@ services:
       - "3000:3000"
     volumes:
       # Persister la base de données et les sessions
-      - ./data:/app/data
+      - backend-data:/app/data
       # Monter .env pour la configuration
       - ./backend/.env:/app/.env:ro
     environment:
@@ -52,5 +52,5 @@ networks:
     driver: bridge
 
 volumes:
-  data:
+  backend-data:
     driver: local

@@ -11,7 +11,7 @@ services:
     container_name: yesapp-backend
     restart: unless-stopped
     volumes:
-      - ./data:/app/data
+      - backend-data:/app/data
       - ./backend/.env:/app/.env:ro
     environment:
       - NODE_ENV=production
@@ -54,5 +54,5 @@ networks:
     driver: bridge
 
 volumes:
-  data:
+  backend-data:
     driver: local
